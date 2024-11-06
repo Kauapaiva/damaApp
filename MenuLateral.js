@@ -43,7 +43,7 @@ export default function MenuLateral({ navigation, user = { name: 'Usuário', ema
         {/* Itens do Menu */}
         {[
           { name: 'Minha Conta', icon: 'user', route: 'MinhaConta' },
-          { name: 'Torneios', icon: 'trophy', route: 'MeusTorneios' },
+          { name: 'Torneios', icon: 'trophy', route: 'Torneios' },
           { name: 'Lixeira', icon: 'trash', route: 'Lixeira' },
           { name: 'Remover Anúncios', icon: 'ban', route: 'RemoverAnuncios' },
           { name: 'Notificações', icon: 'bell', route: 'Notificacoes' },

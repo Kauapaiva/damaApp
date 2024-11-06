@@ -60,7 +60,7 @@ export default function LoginScreen({ navigation }) {
       <View style={styles.buttonContainer}>
         {/* Troque a ordem dos botões aqui */}
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Admin')}>
-          <Text style={styles.buttonText}>Entrar como Admin</Text>
+          <Text style={styles.buttonText}>Entrar como Administrador</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Competitor')}>
           <Text style={styles.buttonText}>Entrar como Competidor</Text>

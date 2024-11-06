@@ -1,34 +1,43 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ScrollView, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
-import { useNavigation } from '@react-navigation/native'; // Importa useNavigation
+import { useNavigation } from '@react-navigation/native';
 
 export default function MinhaConta({ onSave }) {
-  const navigation = useNavigation(); // Obtém a instância de navegação
+  const navigation = useNavigation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [profileImage, setProfileImage] = useState(null);
+  const [loadingImage, setLoadingImage] = useState(false);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
 
   const handleSave = () => {
+    if (!name || !email || !phone || !address) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos antes de salvar.');
+      return;
+    }
+
     setSuccessMessageVisible(true);
     if (onSave) {
       onSave({ name, email, phone, address, profileImage });
     }
+    setTimeout(() => setSuccessMessageVisible(false), 2000); // Oculta a mensagem após 2 segundos
   };
 
   const handleChangeProfileImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted) {
+      setLoadingImage(true); // Inicia o carregamento da imagem
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
+      setLoadingImage(false); // Finaliza o carregamento da imagem
       if (!result.canceled) {
         setProfileImage(result.assets[0].uri);
       }
@@ -42,14 +51,8 @@ export default function MinhaConta({ onSave }) {
       'Confirmação',
       'Você realmente deseja sair?',
       [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Sair',
-          onPress: () => navigation.navigate('Login'), // Navega para a tela de login
-        },
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Sair', onPress: () => navigation.navigate('Login') },
       ],
       { cancelable: false }
     );
@@ -61,7 +64,9 @@ export default function MinhaConta({ onSave }) {
         <View style={styles.header}></View>
 
         <TouchableOpacity onPress={handleChangeProfileImage} style={styles.profileImageContainer}>
-          {profileImage ? (
+          {loadingImage ? (
+            <ActivityIndicator size="large" color="#cc3333" />
+          ) : profileImage ? (
             <Image source={{ uri: profileImage }} style={styles.profileImage} />
           ) : (
             <Icon name="user-circle" size={80} color="#cccccc" />

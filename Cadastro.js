@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
-export default function CompetidorScreen({ navigation }) {
+export default function CadastroScreen({ navigation }) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -22,28 +27,50 @@ export default function CompetidorScreen({ navigation }) {
         Checkers <Text style={styles.logoHighlight}>Champions</Text>
       </Text>
       <Text style={styles.adminLink}>By Urubu Studios</Text>
-      
-      {/* Formulário */}
-      <TextInput style={styles.input} placeholder="Nome de Usuário" placeholderTextColor="#ccc" />
-      <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#ccc" secureTextEntry />
-      
-      {/* Link de recuperação de senha alinhado à esquerda */}
-      <View style={styles.forgotPasswordContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('RedefinirSenha')}>
-          <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
-        </TouchableOpacity>
-      </View>
-      
-      {/* Botão Entrar */}
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('HomeCompetidor')}>
-        <Text style={styles.loginButtonText}>Entrar</Text>
+
+      {/* Formulário de Cadastro */}
+      <TextInput
+        style={styles.input}
+        placeholder="Nome de usuário"
+        placeholderTextColor="#ccc"
+        value={username}
+        onChangeText={setUsername}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="#ccc"
+        keyboardType="email-address"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Senha"
+        placeholderTextColor="#ccc"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Confirmar Senha"
+        placeholderTextColor="#ccc"
+        secureTextEntry
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+      />
+
+      {/* Botão Cadastrar */}
+      <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Admin')}>
+        <Text style={styles.registerButtonText}>Cadastrar</Text>
       </TouchableOpacity>
-      
-      {/* Opção de cadastro */}
-      <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
-        <Text style={styles.registerText}>Não tem uma conta? Cadastre-se</Text>
+
+      {/* Link para voltar ao login */}
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.loginLink}>Já possui uma conta? Faça login</Text>
       </TouchableOpacity>
-      
+
       {/* Footer */}
       <Text style={styles.copyrightText}>
         Todos os direitos reservados &copy; {new Date().getFullYear()}
@@ -104,33 +131,24 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
   },
-  forgotPasswordContainer: {
-    width: '100%',
-    alignItems: 'flex-start', // Alinha à esquerda
-    marginBottom: 20, // Espaço entre o link e o próximo componente
-  },
-  forgotPassword: {
-    color: '#cccccc',
-    fontSize: 14,
-  },
-  loginButton: {
+  registerButton: {
     backgroundColor: '#cc3333',
     paddingVertical: 10,
     paddingHorizontal: 40,
     borderRadius: 5,
-    marginBottom: 10,
+    marginTop: 10,
   },
-  loginButtonText: {
+  registerButtonText: {
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  registerText: {
+  loginLink: {
     color: '#cc3333',
     fontSize: 14,
+    marginTop: 20,
     textDecorationLine: 'underline',
-    marginTop: 10,
   },
   copyrightText: {
     color: '#cccccc',

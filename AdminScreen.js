@@ -26,11 +26,21 @@ export default function AdminScreen({ navigation }) {
       <TextInput style={styles.input} placeholder="Usuário" placeholderTextColor="#ccc" />
       <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#ccc" secureTextEntry />
       {/* Link de recuperação de senha alinhado à esquerda */}
-      <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
+      <View style={styles.forgotPasswordContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate('RedefinirSenha')}>
+          <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
+        </TouchableOpacity>
+      </View>
       {/* Botão Entrar */}
       <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Campeonato')}>
         <Text style={styles.loginButtonText}>Entrar</Text>
       </TouchableOpacity>
+
+      {/* Link para a tela de cadastro */}
+      <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
+        <Text style={styles.registerLink}>Não tem uma conta? Cadastre-se</Text>
+      </TouchableOpacity>
+
       {/* Footer */}
       <Text style={styles.copyrightText}>
         Todos os direitos reservados &copy; {new Date().getFullYear()}
@@ -91,12 +101,14 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
   },
+  forgotPasswordContainer: {
+    width: '100%',
+    alignItems: 'flex-start',  // Garanta o alinhamento à esquerda
+    marginBottom: 20,
+  },
   forgotPassword: {
     color: '#cccccc',
     fontSize: 14,
-    marginBottom: 20,
-    alignSelf: 'flex-start',
-    width: '100%',
   },
   loginButton: {
     backgroundColor: '#cc3333',
@@ -109,6 +121,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  registerLink: {
+    color: '#cc3333',
+    fontSize: 14,
+    marginTop: 20,
+    textDecorationLine: 'underline',
   },
   copyrightText: {
     color: '#cccccc',

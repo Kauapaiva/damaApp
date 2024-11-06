@@ -3,8 +3,10 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, S
 import * as ImagePicker from 'expo-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Calendar } from 'react-native-calendars';
+import { useChampionship } from './ChampionshipContext';  // Importe o contexto
 
 export default function CriarCampeonatoScreen({ navigation }) {
+  const { addChampionship } = useChampionship();  // Pegue a função addChampionship do contexto
   const [modalidade, setModalidade] = useState('Online');
   const [capa, setCapa] = useState(null);
   const [nomeCampeonato, setNomeCampeonato] = useState('');
@@ -63,8 +65,23 @@ export default function CriarCampeonatoScreen({ navigation }) {
   };
 
   const handleCreateChampionship = () => {
-    // Aqui você pode adicionar a lógica para criar o campeonato
-    navigation.navigate('Campeonato'); // Direciona para a tela CampeonatoScreen
+    // Criar o objeto do campeonato
+    const newChampionship = {
+      nome: nomeCampeonato,
+      regras,
+      modalidade,
+      capa,
+      dataInicioInscricao,
+      dataTerminoInscricao,
+      dataInicioEvento,
+      dataTerminoEvento,
+    };
+
+    // Adiciona o campeonato ao contexto
+    addChampionship(newChampionship);
+
+    // Navega para a tela de campeonatos
+    navigation.navigate('Campeonato');
   };
 
   return (
@@ -103,7 +120,7 @@ export default function CriarCampeonatoScreen({ navigation }) {
         )}
 
         <Text style={styles.sectionTitle}>PERÍODO DE INSCRIÇÕES</Text>
-        
+
         <Text style={styles.title}>Data de Início</Text>
         <TouchableOpacity onPress={() => openCalendar('dataInicioInscricao')} style={styles.calendarButton}>
           <Text style={styles.calendarButtonText}>{dataInicioInscricao || "Selecione uma data"}</Text>
@@ -115,7 +132,7 @@ export default function CriarCampeonatoScreen({ navigation }) {
         </TouchableOpacity>
 
         <Text style={styles.sectionTitle}>PERÍODO DE EVENTO</Text>
-        
+
         <Text style={styles.title}>Data de Início</Text>
         <TouchableOpacity onPress={() => openCalendar('dataInicioEvento')} style={styles.calendarButton}>
           <Text style={styles.calendarButtonText}>{dataInicioEvento || "Selecione uma data"}</Text>
@@ -164,25 +181,25 @@ export default function CriarCampeonatoScreen({ navigation }) {
                 selected: true,
                 marked: true,
                 dotColor: 'orange',
-                selectedColor: 'blue',
+                selectedColor: '#cc3333',
               },
               [dataTerminoInscricao]: {
                 selected: true,
                 marked: true,
                 dotColor: 'orange',
-                selectedColor: 'blue',
+                selectedColor: '#cc3333',
               },
               [dataInicioEvento]: {
                 selected: true,
                 marked: true,
                 dotColor: 'orange',
-                selectedColor: 'blue',
+                selectedColor: '#cc3333',
               },
               [dataTerminoEvento]: {
                 selected: true,
                 marked: true,
                 dotColor: 'orange',
-                selectedColor: 'blue',
+                selectedColor: '#cc3333',
               },
             }}
           />
@@ -194,14 +211,20 @@ export default function CriarCampeonatoScreen({ navigation }) {
 
       <View style={styles.bottomMenu}>
         <TouchableOpacity style={styles.menuButton}>
-          <Icon name="trophy" size={20} color="#ffffff" />
+          <Icon name="trophy" size={20} color="#cc3333" />
           <Text style={styles.menuButtonText}>Painel</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => navigation.navigate('Participante')} // Navega para a tela Participantes
+        >
           <Icon name="users" size={20} color="#ffffff" />
           <Text style={styles.menuButtonText}>Participantes</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => navigation.navigate('Chaveamento')}
+        >
           <Icon name="align-left" size={20} color="#ffffff" />
           <Text style={styles.menuButtonText}>Chaves</Text>
         </TouchableOpacity>

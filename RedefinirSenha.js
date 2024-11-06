@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 
-export default function CompetidorScreen({ navigation }) {
+export default function RedefinirSenha({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = () => {
+    if (newPassword !== confirmNewPassword) {
+      setMessage('As senhas não coincidem.');
+    } else {
+      // Aqui você pode adicionar a lógica para a redefinição da senha
+      // Por exemplo, fazer uma requisição para a API para atualizar a senha.
+      setMessage('Senha redefinida com sucesso!');
+      // Após a redefinição, você pode navegar para a tela de login.
+      navigation.navigate('Login');
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -22,28 +39,46 @@ export default function CompetidorScreen({ navigation }) {
         Checkers <Text style={styles.logoHighlight}>Champions</Text>
       </Text>
       <Text style={styles.adminLink}>By Urubu Studios</Text>
-      
-      {/* Formulário */}
-      <TextInput style={styles.input} placeholder="Nome de Usuário" placeholderTextColor="#ccc" />
-      <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#ccc" secureTextEntry />
-      
-      {/* Link de recuperação de senha alinhado à esquerda */}
-      <View style={styles.forgotPasswordContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('RedefinirSenha')}>
-          <Text style={styles.forgotPassword}>Esqueceu sua senha?</Text>
-        </TouchableOpacity>
-      </View>
-      
-      {/* Botão Entrar */}
-      <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('HomeCompetidor')}>
-        <Text style={styles.loginButtonText}>Entrar</Text>
+
+      {/* Formulário de Redefinir Senha */}
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="#ccc"
+        keyboardType="email-address"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Nova Senha"
+        placeholderTextColor="#ccc"
+        secureTextEntry
+        value={newPassword}
+        onChangeText={setNewPassword}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Confirmar Nova Senha"
+        placeholderTextColor="#ccc"
+        secureTextEntry
+        value={confirmNewPassword}
+        onChangeText={setConfirmNewPassword}
+      />
+
+      {/* Mensagem de erro ou sucesso */}
+      {message ? <Text style={styles.message}>{message}</Text> : null}
+
+      {/* Botão Redefinir Senha */}
+      <TouchableOpacity style={styles.redefineButton} onPress={handleSubmit}>
+        <Text style={styles.redefineButtonText}>Redefinir Senha</Text>
       </TouchableOpacity>
-      
-      {/* Opção de cadastro */}
-      <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
-        <Text style={styles.registerText}>Não tem uma conta? Cadastre-se</Text>
+
+      {/* Link para voltar ao login */}
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.loginLink}>Voltar ao Login</Text>
       </TouchableOpacity>
-      
+
       {/* Footer */}
       <Text style={styles.copyrightText}>
         Todos os direitos reservados &copy; {new Date().getFullYear()}
@@ -104,33 +139,29 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 16,
   },
-  forgotPasswordContainer: {
-    width: '100%',
-    alignItems: 'flex-start', // Alinha à esquerda
-    marginBottom: 20, // Espaço entre o link e o próximo componente
-  },
-  forgotPassword: {
-    color: '#cccccc',
+  message: {
+    color: '#ff3333',
     fontSize: 14,
+    marginBottom: 10,
   },
-  loginButton: {
+  redefineButton: {
     backgroundColor: '#cc3333',
     paddingVertical: 10,
     paddingHorizontal: 40,
     borderRadius: 5,
-    marginBottom: 10,
+    marginTop: 10,
   },
-  loginButtonText: {
+  redefineButtonText: {
     color: '#ffffff',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  registerText: {
+  loginLink: {
     color: '#cc3333',
     fontSize: 14,
+    marginTop: 20,
     textDecorationLine: 'underline',
-    marginTop: 10,
   },
   copyrightText: {
     color: '#cccccc',

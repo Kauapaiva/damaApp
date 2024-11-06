@@ -5,7 +5,7 @@ import { useRoute } from '@react-navigation/native';
 import MenuLateral from './MenuLateral';
 import { useChampionship } from './ChampionshipContext';
 
-export default function CampeonatoScreen({ navigation }) {
+export default function HomeCompetidor({ navigation }) {
   const route = useRoute();
   const { championshipData } = route.params || {}; // Garantir que o parâmetro existe ou é um objeto vazio
   const [isMenuLateralVisible, setMenuLateralVisible] = useState(true);
@@ -81,18 +81,9 @@ export default function CampeonatoScreen({ navigation }) {
             columnWrapperStyle={styles.row} // Adiciona um estilo para a linha
           />
         ) : (
-          <Text style={styles.noChampionshipsText}>Nenhum campeonato criado</Text>
+          <Text style={styles.noChampionshipsText}>Nenhum campeonato</Text>
         )}
-
-        <Text style={styles.addFirstText}>Adicione o primeiro!</Text>
       </View>
-
-      <TouchableOpacity
-        style={styles.newTournamentButton}
-        onPress={() => navigation.navigate('CriarCampeonato')}
-      >
-        <Text style={styles.newTournamentButtonText}>Novo Torneio +</Text>
-      </TouchableOpacity>
 
       <View style={styles.footer}>
         <TouchableOpacity style={styles.footerButton}>
@@ -107,7 +98,7 @@ export default function CampeonatoScreen({ navigation }) {
           <Text style={styles.footerButtonText}>Eventos</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.footerButton}
-          onPress={() => navigation.navigate('Torneios')}>
+        onPress={() => navigation.navigate('Torneios')}>
 
           <Icon name="trophy" size={20} color="#ffffff" />
           <Text style={styles.footerButtonText}>Torneios</Text>
@@ -279,20 +270,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     marginBottom: 20,
   },
-  newTournamentButton: {
-    backgroundColor: '#cc3333',
-    borderRadius: 50,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    position: 'absolute',
-    bottom: 100,
-    right: 20,
-  },
-  newTournamentButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   footer: {
     position: 'absolute',
     bottom: 0,
@@ -300,16 +277,16 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 15,
-    backgroundColor: '#1a1a1a', // Cor de fundo do menu
+    backgroundColor: '#1a1a1a',
+    padding: 10,
     borderTopWidth: 1,
-    borderTopColor: '#555',
+    borderTopColor: '#333333',
   },
   footerButton: {
     alignItems: 'center',
   },
   footerButtonText: {
     color: '#ffffff',
-    fontSize: 10,
+    fontSize: 12,
   },
 });
